@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta http-equiv="X-UA-Compatible" content="IE=edge">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Network Algorithm simulator</title>
+  <link rel="stylesheet" href="/static/base.css">
+  <link rel="stylesheet" href="/static/AM.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Open+Sans&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css" integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+
+</head>
+<body class="graph-body">
+  {% with title= title %}
+    {% include 'nav.html' %}
+  {%endwith%}
+<div class="container-full" id="graph-back">
+  <div class="notes">
+    <h4>Warnings</h4>
+    <ol>
+      <li>Keep the carrier frequency much higher than the message frequency.</li>
+      <li>Keep the carrier amplitude higher than the message amplitude.</li>
+      {% if index == 2 %}
+      <li>For lower carrier frequency keep phase sensitivity higher.</li>
+      {% elif index == 1 %}
+      <li>For lower carrier frequency keep frequency sensitivity higher.</li>
+      {% endif %}
+    </ol>
+  </div>
+  <form action="/FM/{{index}}" method="POST">
+    <div class="inputs">
+      <div class="input-wrapper">
+          <label for="signal_type" class="form-label">Message type</label>
+          <select name="message_signal" class="input-bar">
+            <option value="sin">Sin</option>
+            <option value="cos" selected>Cos</option>
+            <option value="tri">Tri</option>
+          </select>
+      </div>  
+      <div class="input-wrapper">
+        <label for="freqm">Message Frequency</label>
+          <input required type="number" id="freqm" min="1000" max="50000" name="fm" placeholder="Fm">
+      </div>
+      <div class="input-wrapper">
+          <label for="am">Message Amplitutde</label>
+          <input required type="number" id="am" name="Am" min="3" placeholder="Am">
+      </div>
+      <div class="input-wrapper">
+        <label for="freqc">Carrier frequency</label>
+        <input required type="number" id="freqc" min="10000" max="50000" name="fc" class="input-bar" placeholder="Fc">
+    </div>
+      <div class="input-wrapper">
+        <label for="am">Carrier Amplitude</label>
+        <input required type="number" id="am" min="4" name="Ac" placeholder="Ac">
+    </div>
+      {% if index == 1 %}
+      <div class="input-wrapper">
+        <label for="K">Frequency sensitivity</label>
+        <input required type="number" id="K" min="1"max="10" name="K" placeholder="K">
+      </div>
+      {% else %}
+      <div class="input-wrapper">
+        <label for="K">Phase sensitivity</label>
+        <input required type="number" id="K" min="0" max="1" name="K" placeholder="K"  step="0.1">
+      </div>
+      {% endif %}
+
+      
+    </div>
+    <div class="buttons">
+      <button type="submit" id="submit-button">show results</button>
+      <!-- <button type="submit" id="Download-button">Download</button> -->
+    </div>
+  </form>
+</div>
+<div class="plot-wrapper"> 
+  {% if inputs|length%}
+    <div class="input-display-section">
+      {%for key, value in inputs.items()%}
+      <article class="selected-value">
+        <span>{{key}}</span>: 
+        <span>{{value}} 
+          {%if key=="Am" or key=="Ac"%}
+            Volts
+          {%elif key=="fm" or key=="fc" %}
+            Hz
+          {%endif%}
+        </span>
+      </article>
+      {%endfor%}
+    </div>
+  {%endif%}
+  {%if errMsg%}
+     <span style="background-color: brown;width:100%;padding:10px;display: inline-block;text-align: center;color: white;">{{errMsg}}</span>
+  {% else %}
+  {% if plots | length == 0%}
+  <p class="info">Please select the values to generate the graph</p>
+  {% else %} 
+  {% for plot in plots %}
+  <img src="data:image/png;base64,{{ plot|decode_hex|b64encode }}" onclick="zoomin()" class="graph-plot" />
+  {% endfor %}
+  {% endif %}
+  {%endif%}
+  
+</div>
+</body>
+</html>

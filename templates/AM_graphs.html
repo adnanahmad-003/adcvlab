@@ -1,0 +1,107 @@
+<!DOCTYPE html>
+<html lang="en">
+{% include 'head.html' %}
+<body class="graph-body">
+  {% with title= title %}
+    {% include 'nav.html' %}
+  {%endwith%}
+<div class="container-full" id="graph-back">
+  <div class="notes">
+    <h4>Warnings</h4>
+    <ol>
+      <li>Keep the carrier frequency much higher than the message frequency.</li>
+      <li>Keep the carrier amplitude higher than the message amplitude.</li>
+    </ol>
+  </div>
+  <form action="/AM/{{am_type}}" method="POST">
+    <div class="inputs">
+      {% if am_type == "QAM" %}
+      <div class="input-wrapper wrap">
+        <div>
+          <label for="signal_type" class="form-label">Message type</label>
+          <select name="message_signal" class="input-bar">
+            <option value="sin">Sin</option>
+            <option value="cos" selected>Cos</option>
+            
+            <option value="tri">Triangle</option>
+            
+          </select>  
+        </div>
+        <div>
+          <label for="signal_type_2" class="form-label">Message type</label>
+          <select name="message_signal_2" class="input-bar">
+            <option value="sin">Sin</option>
+            <option value="cos" selected>Cos</option>
+            
+            <option value="tri">Triangle</option>
+           
+          </select>  
+        </div>
+      </div>  
+      {% else %}
+      <div class="input-wrapper">
+        <label for="signal_type" class="form-label">Message type</label>
+        <select name="message_signal" class="input-bar">
+          <option value="sin">Sin</option>
+          <option value="cos" selected>Cos</option>
+       
+            <option value="tri">Triangle</option>
+           
+        </select>
+      </div>  
+      {% endif %}
+      <div class="input-wrapper">
+        <label for="freqm">Message frequncy</label>
+          <input required type="number" id="freqm" name="fm" min="1000" max="50000" placeholder="message frequency">
+      </div>
+      <div class="input-wrapper">
+          <label for="am">Message Amplitutde</label>
+          <input required type="number" id="am" name="Am" min="3"  placeholder="message amplitude">
+      </div>
+      <div class="input-wrapper">
+        <label for="freqc">Carrier frequency</label>
+        <input required type="number" id="freqc" name="fc" min="10000" max="50000" class="input-bar" placeholder="carrier frequency">
+    </div>
+    <div class="input-wrapper">
+      <label for="am">Carrier Amplitude</label>
+      <input required type="number" id="am" name="Ac" min="5"  placeholder="carrier amplitude">
+  </div>
+
+    </div>
+    <div class="buttons">
+      <button type="submit" id="submit-button">Show Resutls</button>
+    </div>
+  </form>
+</div>
+<div class="plot-wrapper"> 
+  {% if inputs|length%}
+    <div class="input-display-section">
+      {%for key, value in inputs.items()%}
+      <article class="selected-value">
+        <span>{{key}}</span>: 
+        <span>{{value}} 
+          {%if key=="Am" or key=="Ac"%}
+            Volts
+          {%elif key=="fm" or key=="fc" %}
+            KHz
+          {%endif%}
+        </span>
+      </article>
+      {%endfor%}
+    </div>
+  {%endif%}
+
+  {%if errMsg%}
+     <span style="display: flex;justify-content: center;margin: 50px;font-size: 24px;">{{errMsg}}</span>
+  {%else%}
+    {% if plots | length == 0%}
+  <p class="info">Please select the values to generate the graph</p>
+    {% else %} 
+     {% for plot in plots %}
+  <img src="data:image/png;base64,{{ plot|decode_hex|b64encode }}" onclick="zoomin()" class="graph-plot" />
+     {% endfor %}
+    {% endif %}
+  {% endif %}
+</div>
+</body>
+</html>

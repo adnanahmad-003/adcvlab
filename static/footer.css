@@ -1,0 +1,135 @@
+
+.about-head{
+    color: black;
+    padding: 8px;
+    padding-left:30px;
+    text-align: left;
+     color: white;
+    }
+    .about-content{
+      
+    line-height: 0.7cm;
+    padding: 27px;
+    color: #000000;
+    text-align: left;
+    
+    color: white;
+    }
+    
+    .labell{
+        float: left;
+        
+        color: antiquewhite;
+    }
+        
+      .write-text{
+        width: 100%;
+        
+        background-color: #fdfdfd;
+        border: 1px solid #353434; /* Gray border */
+        border-radius: 4px; /* Rounded borders */
+        box-sizing: border-box;
+        
+      }
+     
+      .label00{
+        float: left;
+        color: antiquewhite;
+        
+      }
+      .text-write{
+        background-color: #ffffff;
+        width: 100%; /* Full width */
+        border: 1px solid #353434; /* Gray border */
+        border-radius: 4px; /* Rounded borders */
+        box-sizing: border-box;
+        padding: 8px; /* Some padding */ 
+        /* Make sure that padding and width stays in place */
+       margin-top: 1px; /* Add a top margin */
+       margin-bottom: 7px; /* Bottom margin */
+       resize: vertical /* Allow the user to vertically resize the textarea (not horizontally) */
+     }
+    
+     
+      
+      .sub-btn {
+        background-color: #53524f;
+        color: rgb(241, 235, 235);
+        padding: 8px 14px;
+        border: none;
+        border-radius: 4px;
+        cursor: pointer;
+      }
+      
+      /* When moving the mouse over the submit button, add a darker green color */
+      .sub-btn:hover {
+        background-color: #1d1313;
+        color: rgb(206, 199, 199);
+        border: 1px solid #020202; /* Gray border */
+        border-radius: 4px; /* Rounded borders */
+    
+      }
+      .coverr{
+        
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        margin: 2px;
+        flex-wrap: wrap; 
+        
+      }
+      
+      .feedback{
+        background-color: #31312f;
+        padding: 5px;
+        
+        border: 1px solid #413f3f;
+        box-shadow: 0px 2px 4px rgba(51, 50, 50, 0.9);
+        border-radius: 8px;
+        text-align: center;
+        flex: 1;
+        margin: 5px;
+      }
+      .about{ 
+        padding: 10px;
+        text-align: center;
+        flex: 1;
+        margin: 7px;
+      }
+      
+      /* Add a background color and some padding around the form */
+      .cont{
+        display: flex;
+        flex-direction: column;
+        
+        background: rgb(49,49,47);
+        background: linear-gradient(4deg, rgba(49,49,47,1) 0%, rgba(49,49,47,1) 7%, rgba(80,80,73,1) 36%, rgba(57,57,52,1) 37%);
+        padding: 15px;
+        padding-bottom: 5px;
+      }
+      
+      .footspace{
+        height: 20vh;
+        background-color: white;
+      }
+      /* Styles for devices with a maximum width of 767px (typically mobile devices) */
+    @media (max-width: 767px) {
+        .coverr{
+            display: block; /* Make sure rows stack */
+        width: 100%;   
+        }
+        .about-head{
+            color: rgb(255, 255, 255);
+            
+            padding-left: 24px;
+            font-size: large;
+            }
+            .about-content{
+                font-size: small;
+            line-height: 0.7cm;
+            padding: 20px;
+            color: #ffffff;
+            }
+      }
+      
+      
